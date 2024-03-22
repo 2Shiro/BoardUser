@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.board.users.mapper.UserMapper">  
+
+	
+
+	<select id="getUserList" resultType="com.board.users.domain.UserVo">
+	
+		SELECT		USERID,
+					USERNAME,
+					EMAIL,
+					CASE
+						WHEN UPOINT BETWEEN 8000 AND 10000 THEN 'VIP'
+						WHEN UPOINT BETWEEN 6000 AND  7999 THEN '우수회원'
+						WHEN UPOINT BETWEEN 4000 AND  5999 THEN '일반회원'
+						WHEN UPOINT BETWEEN 2000 AND  3999 THEN '준회원'
+						WHEN UPOINT BETWEEN    0 AND  1999 THEN '손님'
+					END
+					UPOINT,
+					TO_CHAR( INDATE, 'YYYY-MM-DD' )	INDATE
+		FROM		USERS
+		ORDER BY	USERID ASC
+	
+	</select>
+	
+	<insert id="insertUser">
+	
+		INSERT INTO USERS (
+			USERID,
+			PASSWD,
+			USERNAME,
+			EMAIL
+		) VALUES (
+			#{ userid },
+			#{ passwd },
+			#{ username },
+			#{ email }
+		)
+	
+	</insert>
+  
+</mapper>
+
+
+
